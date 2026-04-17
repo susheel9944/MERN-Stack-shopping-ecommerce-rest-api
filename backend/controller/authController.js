@@ -1,5 +1,6 @@
 import catchAsyncError from "../middleware/catchAsyncError.js";
 import User from "../model/user.js";
+import { delete_file, upload_file } from "../utils/cluodnairy.js";
 import { getResetPasswordTemplate } from "../utils/emailTemplate.js";
 import ErrorHandler from "../utils/errorHandler.js";
 import sendEmail from "../utils/sendEmail.js";
@@ -50,6 +51,29 @@ export const logout = catchAsyncError(async (req, res, next) => {
   });
   res.status(200).json({
     message: "Logged out",
+  });
+});
+
+//Upload user Avatar => /api/v1/me/upload-avatar
+export const uploadAvatar = catchAsyncError(async (req, res, next) => {
+  const avatarResponse = await upload_file(req.body.avatar, "shopit/avatars");
+
+  if (req?.user?.avatar?.url) {
+    await delete_file(req?.user?.avatar?.public_id);
+  }
+  // const user = await User.findByIdAndUpdate(req?.user?._id, {
+  //   avatar: avatarResponse,
+  // });
+  const user = await User.findByIdAndUpdate(
+    req.user._id,
+    { avatar: avatarResponse },
+    { new: true, runValidators: true },
+  );
+  console.log("avatar user", user);
+  return res.status(200).json({
+    success: true,
+
+    user,
   });
 });
 
@@ -161,7 +185,7 @@ export const updatePassword = catchAsyncError(async (req, res, next) => {
 //Update User Profile => /api/v1/me/update
 export const updateProfile = catchAsyncError(async (req, res, next) => {
   const newUserUpdate = {
-    nmae: req.body.name,
+    name: req.body.name,
     email: req.body.email,
   };
 

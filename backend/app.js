@@ -1,6 +1,7 @@
 import express from "express";
 
 const app = express();
+
 import dotenv from "dotenv";
 import cors from "cors";
 import { connectDatabase } from "./config/dbConnection.js";
@@ -22,7 +23,9 @@ app.use(express.json());
 app.use(cookieParser());
 const PORT = process.env.PORT || 4000;
 //middleware
-app.use(express.json());
+app.use(express.json({ limit: "10mb" }));
+app.use(express.urlencoded({ limit: "10mb", extended: true }));
+
 app.use(
   cors({
     origin: "*",

@@ -1,20 +1,42 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useGetMeQuery } from "../../redux/userApi";
 import Search from "./Search";
-import { useSelector } from "react-redux";
-import { useLazyLogoutQuery } from "../../redux/authApi";
+import { useDispatch, useSelector } from "react-redux";
+import { useLogoutMutation } from "../../redux/authApi";
+import { useEffect } from "react";
 
 const Header = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { isLoading, error } = useGetMeQuery();
-  const [logout, { data }] = useLazyLogoutQuery();
+  const [logout, { data }] = useLogoutMutation();
+
   console.log(data, "logout++++++");
   const { user } = useSelector((state) => state.auth);
   console.log("user ==============", user);
-  const logoutHandler = () => {
-    logout();
-    navigate(0);
+
+  const logoutHandler = async () => {
+    try {
+      await logout().unwrap();
+
+      // ✅ Clear Redux auth state
+      dispatch(setUser(null));
+      dispatch(setIsAuthenticated(false));
+
+      // ✅ Reset RTK Query cache
+      dispatch(productApi.util.resetApiState());
+      dispatch(userApi.util.resetApiState());
+
+      // ✅ Redirect
+      // navigate(0); // hard reload
+      // window.location.reload();
+
+      navigate("/login");
+    } catch (err) {
+      console.log(err);
+    }
   };
+
   console.log("avatar+++++++++++", user?.avatar?.url);
   return (
     <nav className="navbar row">
@@ -80,7 +102,7 @@ const Header = () => {
 
               <Link
                 className="dropdown-item text-danger"
-                to="/"
+                to="/login"
                 onClick={logoutHandler}
               >
                 {" "}

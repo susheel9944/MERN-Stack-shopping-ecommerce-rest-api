@@ -15,8 +15,6 @@ const Login = () => {
   console.log("is authenticated-------", isAuthenticated);
   useEffect(() => {
     if (isAuthenticated) {
-      console.log("route checking", isAuthenisAuthenticatedticated);
-
       navigate("/");
     }
     if (error) {

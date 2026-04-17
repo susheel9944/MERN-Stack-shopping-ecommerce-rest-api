@@ -4,11 +4,15 @@ import APIFilters from "../utils/apiFilters.js";
 import ErrorHandler from "../utils/errorHandler.js";
 
 //Get all Product => /api/v1/products
-export const getProducts = catchAsyncError(async (req, res) => {
+export const getProducts = catchAsyncError(async (req, res, next) => {
+  console.log("REQ QUERY:", req.query);
+
   const resPerPage = 4;
   const apiFilters = new APIFilters(Product, req.query).search().filters();
   let products = await apiFilters.query;
   let filteredProductsCount = products.length;
+
+  // return next(new ErrorHandler("products Error", 400));
 
   //Pagination
   apiFilters.pagination(resPerPage);

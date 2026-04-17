@@ -11,8 +11,8 @@ const router = express.Router();
 
 router.get(
   "/products",
-  isAuthenticatedUser,
-  authorizeRoles("admin"),
+  // isAuthenticatedUser,
+  // authorizeRoles("admin"),
   getProducts,
 );
 router.post(
@@ -22,7 +22,11 @@ router.post(
   newProducts,
 );
 
-router.get("/products/:id", isAuthenticatedUser, getProductDetails);
+router.get(
+  "/products/:id",
+  // isAuthenticatedUser,
+  getProductDetails,
+);
 router.put(
   "/admin/products/:id",
   isAuthenticatedUser,
