@@ -43,10 +43,6 @@ const Home = () => {
     return <Loader />;
   }
 
-  console.log("API page:", page);
-  console.log("Products:", data?.products);
-
-  console.log("Total product", data);
   return (
     <>
       <MetaData title={"By Best Product Online"} />

@@ -3,8 +3,15 @@ import { useGetProductDetailsQuery } from "../../redux/productAPi";
 import { useParams } from "react-router-dom";
 import Loader from "../layout/Loader";
 import { Rating } from "react-simple-star-rating";
+import { useDispatch } from "react-redux";
+import { setCartItem } from "../../redux/features/cartSlice";
+import { toast } from "react-toastify";
+import MetaData from "../layout/MetaData";
 const ProductDetail = () => {
   const params = useParams();
+  const dispatch = useDispatch();
+  const [quantity, setQuantity] = useState(1);
+
   const { data, isError, error, isLoading } = useGetProductDetailsQuery(
     params.id,
   );
@@ -45,8 +52,38 @@ const ProductDetail = () => {
     setRating(rate);
   };
 
+  const increseQty = () => {
+    const count = document.querySelector(".count");
+
+    if (count.valueAsNumber >= product.stock) return;
+    const qty = count.valueAsNumber + 1;
+    setQuantity(qty);
+  };
+
+  const decresQty = () => {
+    const count = document.querySelector(".count");
+
+    if (count.valueAsNumber <= 1) return;
+    const qty = count.valueAsNumber - 1;
+    setQuantity(qty);
+  };
+
+  const setItemToCart = () => {
+    const cartItem = {
+      product: product?._id,
+      name: product?.name,
+      price: product?.price,
+      image: product?.images[0]?.url,
+      stock: product?.stock,
+      quantity,
+    };
+    dispatch(setCartItem(cartItem));
+    toast.success("Item added to cart");
+  };
+  console.log("preoduct detail0-----------", data);
   return (
     <>
+      <MetaData title={"Product Details"} />
       <div className="row d-flex justify-content-around">
         <div className="col-12 col-lg-5 img-fluid" id="product_image">
           <div className="p-3">
@@ -94,20 +131,25 @@ const ProductDetail = () => {
 
           <p id="product_price">${product.price}</p>
           <div className="stockCounter d-inline">
-            <span className="btn btn-danger minus">-</span>
+            <span className="btn btn-danger minus" onClick={decresQty}>
+              -
+            </span>
             <input
               type="number"
               className="form-control count d-inline"
-              value="1"
-              readonly
+              value={quantity}
+              readOnly
             />
-            <span className="btn btn-primary plus">+</span>
+            <span className="btn btn-primary plus" onClick={increseQty}>
+              +
+            </span>
           </div>
           <button
             type="button"
             id="cart_btn"
             className="btn btn-primary d-inline ms-4"
-            disabled=""
+            disabled={product.stock <= 0}
+            onClick={setItemToCart}
           >
             Add to Cart
           </button>

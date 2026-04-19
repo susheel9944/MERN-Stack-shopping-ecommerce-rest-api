@@ -3,6 +3,7 @@ import { useUpdatePasswordMutation } from "../../redux/userApi";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import UserLayout from "../layout/UserLayout";
+import MetaData from "../layout/MetaData";
 
 const UpdatePassword = () => {
   const navigate = useNavigate();
@@ -33,6 +34,7 @@ const UpdatePassword = () => {
   };
   return (
     <UserLayout>
+      <MetaData title={"Update Password"} />
       <div className="row wrapper">
         <div className="col-10 col-lg-8">
           <form className="shadow rounded bg-body" onSubmit={handleSubmit}>

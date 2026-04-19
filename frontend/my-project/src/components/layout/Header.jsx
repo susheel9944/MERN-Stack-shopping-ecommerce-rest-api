@@ -11,9 +11,8 @@ const Header = () => {
   const { isLoading, error } = useGetMeQuery();
   const [logout, { data }] = useLogoutMutation();
 
-  console.log(data, "logout++++++");
   const { user } = useSelector((state) => state.auth);
-  console.log("user ==============", user);
+  const { cartItems } = useSelector((state) => state.cart);
 
   const logoutHandler = async () => {
     try {
@@ -56,7 +55,7 @@ const Header = () => {
             Cart
           </span>
           <span className="ms-1" id="cart_count">
-            0
+            {cartItems.length}
           </span>
         </Link>
 

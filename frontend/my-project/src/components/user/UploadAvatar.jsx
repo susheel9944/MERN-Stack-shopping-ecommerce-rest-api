@@ -4,6 +4,7 @@ import UserLayout from "../layout/UserLayout";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import MetaData from "../layout/MetaData";
 
 const UploadAvatar = () => {
   const navigate = useNavigate();
@@ -50,6 +51,7 @@ const UploadAvatar = () => {
   };
   return (
     <UserLayout>
+      <MetaData title={"upload Avatar"} />
       <div className="row wrapper">
         <div className="col-10 col-lg-8">
           <form className="shadow rounded bg-body" onSubmit={handleSubmit}>

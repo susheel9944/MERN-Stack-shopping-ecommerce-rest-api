@@ -120,7 +120,7 @@ const Filter = () => {
               size={20}
               fillColor="#ffb829"
               emptyColor="#e4e5e9"
-              readonly
+              readOnly
             />
           </label>
         </div>

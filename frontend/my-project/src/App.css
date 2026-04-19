@@ -272,7 +272,7 @@ footer {
 }
 
 .form-control:disabled,
-.form-control[readonly] {
+.form-control[readOnly] {
   background-color: white;
 }
 
