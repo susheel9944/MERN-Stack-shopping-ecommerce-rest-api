@@ -165,6 +165,7 @@ export const createProductReview = catchAsyncError(async (req, res, next) => {
 
 // Get product reviews => /api/v1/reviews
 export const getProductReviews = catchAsyncError(async (req, res, next) => {
+  console.log("review list check", res, req);
   const product = await Product.findById(req.query.id);
 
   if (!product) {
@@ -175,33 +176,7 @@ export const getProductReviews = catchAsyncError(async (req, res, next) => {
   });
 });
 
-// //Get Delete Reviews => /api/v1/reviews
-// export const deleteReview = catchAsyncError(async (req, res, next) => {
-//   const product = await Product.findById(req.query.productId);
-
-//   if (!product) {
-//     return next(new ErrorHandler("Product not found"));
-//   }
-
-//   product.reviews = product.reviews.filter((review) => {
-//     review._id.toString() !== req?.query?.id.toString();
-//   });
-
-//   product.numOfReview = product.reviews.length;
-
-//   product.ratings =
-//     product.reviews.reduce((acc, item) => item.rating + acc, 0) /
-//     product.reviews.length;
-
-//   await product.save({ validateBeforeSave: false });
-
-//   res.status(200).json({
-//     success: true,
-//   });
-// });
-
-// Delete product review => /api/v1/admin/reviews
-
+//Delete Review
 export const deleteReview = catchAsyncError(async (req, res, next) => {
   let product = await Product.findById(req.query.productId);
 
@@ -215,11 +190,16 @@ export const deleteReview = catchAsyncError(async (req, res, next) => {
 
   const numOfReview = reviews?.length;
 
+  // const ratings =
+  //   numOfReview === 0
+  //     ? 0
+  //     : product.reviews.reduce((acc, item) => item.rating + acc, 0) /
+  //       numOfReview;
+
   const ratings =
     numOfReview === 0
       ? 0
-      : product.reviews.reduce((acc, item) => item.rating + acc, 0) /
-        numOfReview;
+      : reviews.reduce((acc, item) => item.rating + acc, 0) / numOfReview;
 
   product = await Product.findByIdAndUpdate(
     req.query.productId,

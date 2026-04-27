@@ -19,11 +19,21 @@ dotenv.config({ path: "./config/.env" });
 
 // Connecting to database
 connectDatabase();
+app.use("/api/v1/payment/webhook", express.raw({ type: "application/json" }));
+
 app.use(express.json());
 app.use(cookieParser());
 const PORT = process.env.PORT || 4000;
 //middleware
-app.use(express.json({ limit: "10mb" }));
+app.use(
+  express.json({
+    limit: "10mb",
+    verify: (req, res, buf) => {
+      req.rawBody = buf.toString();
+    },
+  }),
+);
+
 app.use(express.urlencoded({ limit: "10mb", extended: true }));
 
 app.use(
@@ -37,10 +47,12 @@ app.use(
 import productRoute from "./routers/products.js";
 import authRoute from "./routers/auth.js";
 import orderRoute from "./routers/order.js";
+import paymentRoute from "./routers/payment.js";
 
 app.use("/api/v1", productRoute);
 app.use("/api/v1", authRoute);
 app.use("/api/v1", orderRoute);
+app.use("/api/v1", paymentRoute);
 app.use(errorMiddleare);
 
 app.listen(PORT, () => {

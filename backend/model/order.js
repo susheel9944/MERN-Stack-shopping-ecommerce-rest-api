@@ -59,7 +59,7 @@ const orderSchema = new mongoose.Schema(
         type: String,
         required: [true, "Please select payment method"],
         enum: {
-          values: ["COD", "Card"],
+          values: ["COD", "card"],
           message: "Please select COD or Card",
         },
       },

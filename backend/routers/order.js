@@ -12,6 +12,7 @@ import {
   newOrder,
   updateOrder,
 } from "../controller/orderController.js";
+import { canUserReview } from "../controller/productController.js";
 const router = express.Router();
 
 router.post("/orders/new", isAuthenticatedUser, newOrder);
@@ -43,4 +44,5 @@ router.delete(
   authorizeRoles("admin"),
   deleteReview,
 );
+router.get("/can-review", isAuthenticatedUser, canUserReview);
 export default router;
