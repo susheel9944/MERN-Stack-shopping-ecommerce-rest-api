@@ -4,6 +4,10 @@ const initialState = {
   cartItems: localStorage.getItem("cartItem")
     ? JSON.parse(localStorage.getItem("cartItem"))
     : [],
+
+  shippingInfo: localStorage.getItem("shippingInfo")
+    ? JSON.parse(localStorage.getItem("shippingInfo"))
+    : {},
 };
 
 export const CartSlice = createSlice({
@@ -33,9 +37,23 @@ export const CartSlice = createSlice({
       );
       localStorage.setItem("cartItem", JSON.stringify(state.cartItems));
     },
+
+    clearCart: (state) => {
+      console.log("CLEAR CART CALLED"); // 👈 add this
+
+      localStorage.removeItem("cartItem"); // ✅ correct key
+      state.cartItems = [];
+    },
+
+    saveShippingInfo: (state, action) => {
+      state.shippingInfo = action.payload;
+
+      localStorage.setItem("shippingInfo", JSON.stringify(state.shippingInfo));
+    },
   },
 });
 
 export default CartSlice.reducer;
 
-export const { setCartItem, removeCartItem } = CartSlice.actions;
+export const { setCartItem, removeCartItem, saveShippingInfo, clearCart } =
+  CartSlice.actions;

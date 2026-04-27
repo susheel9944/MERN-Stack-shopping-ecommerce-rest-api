@@ -9,66 +9,17 @@ import {
 } from "react-router-dom";
 import "./App.css";
 import { ToastContainer, toast } from "react-toastify";
-import ProductDetail from "./components/product/ProductDetail";
-import Login from "./components/auth/login";
-import Register from "./components/auth/Register";
-import Profile from "./components/user/Profile";
-import UpdateProfile from "./components/user/UpdateProfile";
-import ProtectedRoute from "./components/auth/ProtectedRoute";
-import UploadAvatar from "./components/user/UploadAvatar";
-import UpdatePassword from "./components/user/UpdatePassword";
-import ForgotPassword from "./components/auth/ForgotPassword";
-import ResetPassword from "./components/auth/ResetPassword";
-import Cart from "./components/cart/Cart";
+import UserRoutes from "./components/routes/UserRoute";
 
 function App() {
+  const userRoute = UserRoutes();
   return (
     <Router>
       <div className="App">
         <ToastContainer position="top-center" />
         <Header />
         <div className="container">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="product/:id" element={<ProductDetail />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/password/forgot" element={<ForgotPassword />} />
-            <Route path="/password/reset/:token" element={<ResetPassword />} />
-            <Route path="/cart" element={<Cart />} />
-            <Route
-              path="/me/profile"
-              element={
-                <ProtectedRoute>
-                  <Profile />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/me/update-profile"
-              element={
-                <ProtectedRoute>
-                  <UpdateProfile />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/me/upload-avatar"
-              element={
-                <ProtectedRoute>
-                  <UploadAvatar />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/me/update-password"
-              element={
-                <ProtectedRoute>
-                  <UpdatePassword />
-                </ProtectedRoute>
-              }
-            />
-          </Routes>
+          <Routes>{userRoute}</Routes>
         </div>
         <Footer />
       </div>

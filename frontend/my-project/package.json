@@ -12,14 +12,19 @@
   "dependencies": {
     "@reduxjs/toolkit": "^2.11.2",
     "bootstrap": "^5.3.8",
+    "countries-list": "^3.3.0",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^4.2.1",
     "react": "^19.2.4",
+    "react-bootstrap": "^2.10.10",
     "react-dom": "^19.2.4",
     "react-helmet": "^6.1.0",
     "react-paginate": "^8.3.0",
     "react-redux": "^9.2.0",
     "react-router-dom": "^7.14.0",
     "react-simple-star-rating": "^5.1.7",
-    "react-toastify": "^11.0.5"
+    "react-toastify": "^11.0.5",
+    "stripe": "^22.0.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.4",

@@ -3,11 +3,13 @@ import { useGetProductDetailsQuery } from "../../redux/productAPi";
 import { useParams } from "react-router-dom";
 import Loader from "../layout/Loader";
 import { Rating } from "react-simple-star-rating";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setCartItem } from "../../redux/features/cartSlice";
 import { toast } from "react-toastify";
 import MetaData from "../layout/MetaData";
-const ProductDetail = () => {
+import NewReview from "../reviews/NewReview";
+import ListReview from "../reviews/ListReview";
+const ProductDetail = ({ reviews }) => {
   const params = useParams();
   const dispatch = useDispatch();
   const [quantity, setQuantity] = useState(1);
@@ -15,8 +17,8 @@ const ProductDetail = () => {
   const { data, isError, error, isLoading } = useGetProductDetailsQuery(
     params.id,
   );
-  console.log("product detail", data);
   const product = data?.product;
+  const { isAuthenticated } = useSelector((state) => state.auth);
   const [rating, setRating] = useState(0);
   const [activeImg, setActiveImg] = useState("");
   const [img, setImg] = useState();
@@ -90,7 +92,7 @@ const ProductDetail = () => {
             <img
               className="d-block w-100"
               src={activeImg}
-              alt={product.name}
+              alt={product?.name}
               width="340"
               height="390"
             />
@@ -114,8 +116,8 @@ const ProductDetail = () => {
         </div>
 
         <div className="col-12 col-lg-5 mt-5">
-          <h3>{product.name}</h3>
-          <p id="product_id">Product # {product._id}</p>
+          <h3>{product?.name}</h3>
+          <p id="product_id">Product # {product?._id}</p>
 
           <hr />
 
@@ -129,7 +131,7 @@ const ProductDetail = () => {
           </div>
           <hr />
 
-          <p id="product_price">${product.price}</p>
+          <p id="product_price">${product?.price}</p>
           <div className="stockCounter d-inline">
             <span className="btn btn-danger minus" onClick={decresQty}>
               -
@@ -148,7 +150,7 @@ const ProductDetail = () => {
             type="button"
             id="cart_btn"
             className="btn btn-primary d-inline ms-4"
-            disabled={product.stock <= 0}
+            disabled={product?.stock <= 0}
             onClick={setItemToCart}
           >
             Add to Cart
@@ -169,17 +171,23 @@ const ProductDetail = () => {
           <hr />
 
           <h4 className="mt-2">Description:</h4>
-          <p>{product.description}</p>
+          <p>{product?.description}</p>
           <hr />
           <p id="product_seller mb-3">
-            Sold by: <strong>{product.seller}</strong>
+            Sold by: <strong>{product?.seller}</strong>
           </p>
-
-          <div className="alert alert-danger my-5" type="alert">
-            Login to post your review.
-          </div>
+          {isAuthenticated ? (
+            <NewReview productId={product?._id} />
+          ) : (
+            <div className="alert alert-danger my-5" type="alert">
+              Login to post your review.
+            </div>
+          )}
         </div>
       </div>
+      {product?.reviews?.length > 0 && (
+        <ListReview reviews={product.reviews} product={product} />
+      )}
     </>
   );
 };
