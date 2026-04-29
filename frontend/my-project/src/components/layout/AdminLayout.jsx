@@ -28,7 +28,7 @@ const AdminLayout = ({ children }) => {
       icon: "fas fa-user",
     },
     {
-      name: "Orders",
+      name: "Reviews",
       url: "/admin/reviews",
       icon: "fas fa-star",
     },
