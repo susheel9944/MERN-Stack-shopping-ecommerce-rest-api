@@ -1,10 +1,13 @@
 import express from "express";
 import {
   deleteProduct,
+  deleteProductImage,
+  getAdminProducts,
   getProductDetails,
   getProducts,
   newProducts,
   updateProduct,
+  uploadProductImages,
 } from "../controller/productController.js";
 import { authorizeRoles, isAuthenticatedUser } from "../middleware/auth.js";
 const router = express.Router();
@@ -21,7 +24,24 @@ router.post(
   authorizeRoles("admin"),
   newProducts,
 );
-
+router.put(
+  "/admin/products/:id/upload-images",
+  isAuthenticatedUser,
+  authorizeRoles("admin"),
+  uploadProductImages,
+);
+router.get(
+  "/admin/products",
+  isAuthenticatedUser,
+  authorizeRoles("admin"),
+  getAdminProducts,
+);
+router.put(
+  "/admin/products/:id/delete-image",
+  isAuthenticatedUser,
+  authorizeRoles("admin"),
+  deleteProductImage,
+);
 router.get(
   "/products/:id",
   // isAuthenticatedUser,

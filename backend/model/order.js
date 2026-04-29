@@ -69,19 +69,19 @@ const orderSchema = new mongoose.Schema(
       status: String,
     },
     itemsPrice: {
-      type: String,
+      type: Number,
       required: true,
     },
     taxAmount: {
-      type: String,
+      type: Number,
       required: true,
     },
     shippingAmount: {
-      type: String,
+      type: Number,
       required: true,
     },
     totalAmount: {
-      type: String,
+      type: Number,
       required: true,
     },
     orderStatus: {

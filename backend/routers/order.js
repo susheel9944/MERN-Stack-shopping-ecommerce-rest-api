@@ -8,6 +8,7 @@ import {
   deleteReview,
   getOrderDetails,
   getProductReviews,
+  getSales,
   myOrders,
   newOrder,
   updateOrder,
@@ -35,6 +36,12 @@ router.delete(
   isAuthenticatedUser,
   authorizeRoles("admin"),
   deleteOrder,
+);
+router.get(
+  "/admin/get-sales",
+  isAuthenticatedUser,
+  authorizeRoles("admin"),
+  getSales,
 );
 router.get("/reviews", isAuthenticatedUser, getProductReviews);
 router.post("/reviews", isAuthenticatedUser, createProductReview);

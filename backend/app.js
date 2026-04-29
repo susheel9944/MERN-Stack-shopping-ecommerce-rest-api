@@ -27,14 +27,14 @@ const PORT = process.env.PORT || 4000;
 //middleware
 app.use(
   express.json({
-    limit: "10mb",
+    limit: "50mb",
     verify: (req, res, buf) => {
       req.rawBody = buf.toString();
     },
   }),
 );
 
-app.use(express.urlencoded({ limit: "10mb", extended: true }));
+app.use(express.urlencoded({ limit: "50mb", extended: true }));
 
 app.use(
   cors({
