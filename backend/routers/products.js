@@ -2,8 +2,10 @@ import express from "express";
 import {
   deleteProduct,
   deleteProductImage,
+  deleteReviewProduct,
   getAdminProducts,
   getProductDetails,
+  getProductReviews,
   getProducts,
   newProducts,
   updateProduct,
@@ -36,6 +38,12 @@ router.get(
   authorizeRoles("admin"),
   getAdminProducts,
 );
+router.get(
+  "/admin/reviews",
+  isAuthenticatedUser,
+  authorizeRoles("admin"),
+  getProductReviews,
+);
 router.put(
   "/admin/products/:id/delete-image",
   isAuthenticatedUser,
@@ -58,6 +66,13 @@ router.delete(
   isAuthenticatedUser,
   authorizeRoles("admin"),
   deleteProduct,
+);
+
+router.delete(
+  "/admin/reviews",
+  isAuthenticatedUser,
+  authorizeRoles("admin"),
+  deleteReviewProduct,
 );
 
 export default router;
