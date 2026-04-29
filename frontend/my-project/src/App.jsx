@@ -10,16 +10,21 @@ import {
 import "./App.css";
 import { ToastContainer, toast } from "react-toastify";
 import UserRoutes from "./components/routes/UserRoute";
+import AdminRoutes from "./components/routes/AdminRoute";
 
 function App() {
   const userRoute = UserRoutes();
+  const adminRoute = AdminRoutes();
   return (
     <Router>
       <div className="App">
         <ToastContainer position="top-center" />
         <Header />
         <div className="container">
-          <Routes>{userRoute}</Routes>
+          <Routes>
+            {userRoute}
+            {adminRoute}
+          </Routes>
         </div>
         <Footer />
       </div>

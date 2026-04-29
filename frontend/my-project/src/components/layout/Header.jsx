@@ -18,17 +18,11 @@ const Header = () => {
     try {
       await logout().unwrap();
 
-      // ✅ Clear Redux auth state
       dispatch(setUser(null));
       dispatch(setIsAuthenticated(false));
 
-      // ✅ Reset RTK Query cache
       dispatch(productApi.util.resetApiState());
       dispatch(userApi.util.resetApiState());
-
-      // ✅ Redirect
-      // navigate(0); // hard reload
-      // window.location.reload();
 
       navigate("/login");
     } catch (err) {
@@ -85,9 +79,11 @@ const Header = () => {
               className="dropdown-menu w-100"
               aria-labelledby="dropDownMenuButton"
             >
-              <Link className="dropdown-item" to="/admin/dashboard">
-                Dashboard{" "}
-              </Link>
+              {user?.role === "admin" && (
+                <Link className="dropdown-item" to="/admin/dashboard">
+                  Dashboard{" "}
+                </Link>
+              )}
 
               <Link className="dropdown-item" to="/me/orders">
                 {" "}

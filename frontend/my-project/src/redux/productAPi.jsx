@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const productApi = createApi({
   reducerPath: "productApi",
   baseQuery: fetchBaseQuery({ baseUrl: "/api/v1" }),
-  tagTypes: ["product"],
+  tagTypes: ["product", "AdminProducts"],
   keepUnusedDataFor: 30, //cache data 30 second in memory
   endpoints: (builder) => ({
     getProducts: builder.query({
@@ -37,6 +37,66 @@ export const productApi = createApi({
     canUserReview: builder.query({
       query: (productId) => `/can-review/?productId=${productId}`,
     }),
+
+    getAdminProducts: builder.query({
+      query: () => `/admin/products`,
+      providesTags: ["AdminProducts"],
+    }),
+
+    createProduct: builder.mutation({
+      query(body) {
+        return {
+          url: "/admin/products",
+          method: "POST",
+          body,
+        };
+      },
+      invalidatesTags: ["AdminProducts"],
+    }),
+    updateProduct: builder.mutation({
+      query({ id, body }) {
+        return {
+          url: `/admin/products/${id}`,
+          method: "PUT",
+          body,
+        };
+      },
+      invalidatesTags: ["AdminProducts", "product"],
+    }),
+    uploadProductImages: builder.mutation({
+      query({ id, body }) {
+        return {
+          url: `/admin/products/${id}/upload-images`,
+          method: "PUT",
+          body,
+        };
+      },
+      invalidatesTags: ["product"],
+    }),
+
+    deleteProductImage: builder.mutation({
+      query({ id, imgId }) {
+        return {
+          url: `/admin/products/${id}/delete-image`,
+          method: "PUT",
+          body: { imgId },
+          headers: {
+            "Content-Type": "application/json",
+          },
+        };
+      },
+      invalidatesTags: ["product"],
+    }),
+
+    deleteProduct: builder.mutation({
+      query(id) {
+        return {
+          url: `/admin/products/${id}`,
+          method: "DELETE",
+        };
+      },
+      invalidatesTags: ["AdminProducts"],
+    }),
   }),
 });
 
@@ -45,4 +105,10 @@ export const {
   useGetProductDetailsQuery,
   useSubmitReviewMutation,
   useCanUserReviewQuery,
+  useGetAdminProductsQuery,
+  useCreateProductMutation,
+  useUpdateProductMutation,
+  useUploadProductImagesMutation,
+  useDeleteProductImageMutation,
+  useDeleteProductMutation,
 } = productApi;

@@ -10,13 +10,17 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@faker-js/faker": "^10.4.0",
     "@reduxjs/toolkit": "^2.11.2",
     "bootstrap": "^5.3.8",
+    "chart.js": "^4.5.1",
     "countries-list": "^3.3.0",
     "html2canvas": "^1.4.1",
     "jspdf": "^4.2.1",
     "react": "^19.2.4",
     "react-bootstrap": "^2.10.10",
+    "react-chartjs-2": "^5.3.1",
+    "react-datepicker": "^9.1.0",
     "react-dom": "^19.2.4",
     "react-helmet": "^6.1.0",
     "react-paginate": "^8.3.0",
