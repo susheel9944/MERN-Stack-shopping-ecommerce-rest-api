@@ -8,6 +8,11 @@ import { connectDatabase } from "./config/dbConnection.js";
 import errorMiddleare from "./middleware/errors.js";
 import cookieParser from "cookie-parser";
 
+import path from "path";
+import { fileURLToPath } from "url";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 //Handle Uncaught exception
 process.on("uncaughtException", (err) => {
   console.log(`ERROR: ${err}`);
@@ -54,6 +59,16 @@ app.use("/api/v1", authRoute);
 app.use("/api/v1", orderRoute);
 app.use("/api/v1", paymentRoute);
 app.use(errorMiddleare);
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "../frontend/my-project/dist")));
+
+  app.get("*", (req, res) => {
+    res.sendFile(
+      path.resolve(__dirname, "../frontend/my-project/dist/index.html"),
+    );
+  });
+}
 
 app.listen(PORT, () => {
   console.log(`Server started on port: ${PORT}`);
