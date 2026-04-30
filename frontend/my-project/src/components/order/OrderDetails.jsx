@@ -4,6 +4,7 @@ import MetaData from "../layout/MetaData";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
 import Loader from "../layout/Loader";
+import NotFound from "../layout/NotFound";
 const OrderDetails = () => {
   const params = useParams();
   console.log("params id:", params?.id);
@@ -27,8 +28,13 @@ const OrderDetails = () => {
     }
   }, [error]);
 
+  if (error & (error?.status == 404)) {
+    return <NotFound />;
+  }
   if (isLoading) return <Loader />;
-
+  if (error && error?.status == 404) {
+    return <NotFound />;
+  }
   console.log("Order API Response:", data);
   return (
     <>

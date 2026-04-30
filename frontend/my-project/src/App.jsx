@@ -11,6 +11,7 @@ import "./App.css";
 import { ToastContainer, toast } from "react-toastify";
 import UserRoutes from "./components/routes/UserRoute";
 import AdminRoutes from "./components/routes/AdminRoute";
+import NotFound from "./components/layout/NotFound";
 
 function App() {
   const userRoute = UserRoutes();
@@ -24,6 +25,7 @@ function App() {
           <Routes>
             {userRoute}
             {adminRoute}
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </div>
         <Footer />
